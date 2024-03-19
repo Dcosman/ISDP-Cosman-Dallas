@@ -17,6 +17,10 @@ namespace ISDP_Cosman_Dallas.Models
         public const int ADMIN = 99999999;
         public const string ORDER_BARCODE = "111222333444";
 
+        // Regex patterns
+        public const string PHONE_PATTERN = @"^\d{10}$";
+        public const string POSTAL_PATTERN = @"^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$";
+
         public const string DEFAULT_PASSWORD = "P@ssw0rd-";
 
         public const int WAREHOUSE_SITE = 2;

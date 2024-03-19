@@ -157,5 +157,37 @@ namespace ISDP_Cosman_Dallas.Accessors
 
             return transactions;
         }
+
+        public static List<TransactionType> GetTransactionTypes()
+        {
+            MySqlConnection conn = new MySqlConnection(connStr);
+            List<TransactionType> transactionTypes = new List<TransactionType>();
+
+            string sql = "SELECT txnType FROM txnType";
+
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        transactionTypes.Add(new TransactionType(reader.GetString("txnType")));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return transactionTypes;
+        }
     }
 }

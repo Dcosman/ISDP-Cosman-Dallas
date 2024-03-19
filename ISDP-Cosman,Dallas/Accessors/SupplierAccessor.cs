@@ -13,6 +13,37 @@ namespace ISDP_Cosman_Dallas.Accessors
     {
         private static string connStr = ConfigurationManager.ConnectionStrings["bullseye2024"].ConnectionString;
 
+        public static List<Supplier> GetAllSuppliers()
+        {
+            List<Supplier> suppliers = new List<Supplier>();
+            string sqlQuery = "SELECT * FROM supplier";
+            MySqlConnection conn = new MySqlConnection(connStr);
+
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sqlQuery, conn);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        suppliers.Add(HelperMethods.CreateSupplier(reader));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return suppliers;
+        }
+
         public static Supplier GetSupplierByID(int supplierID)
         {
             string sqlSupplier = "SELECT * FROM supplier WHERE supplierID = @supplierID";
@@ -64,6 +95,37 @@ namespace ISDP_Cosman_Dallas.Accessors
             return supp;
         }
 
+        public static bool AddUpdateSupplier(string sql, List<MySqlParameter> parameters)
+        {
+            bool success = false;
+            using (MySqlConnection conn = new MySqlConnection(connStr))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddRange(parameters.ToArray());
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: Supplier update was unsuccessful\n{ex.Message}");
+                    success = false;
+                }
+            }
+
+            return success;
+        }
+
+        public static bool AddUpdateSupplier(string sql, params MySqlParameter[] parameters)
+        {
+            return AddUpdateSupplier(sql, parameters.ToList());
+        }
 
     }
 }

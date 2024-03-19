@@ -35,7 +35,6 @@
             tabShipReceipts = new TabPage();
             tabSupplierOrder = new TabPage();
             tabLossReturn = new TabPage();
-            tabEmergencyOrder = new TabPage();
             tabStoreOrder = new TabPage();
             btnAcceptOrder = new Button();
             btnCreateBackOrder = new Button();
@@ -59,6 +58,11 @@
             tabPOSLink = new TabPage();
             tabPermissions = new TabPage();
             tabSuppliers = new TabPage();
+            btnEditSupplier = new Button();
+            cboSupplierName = new ComboBox();
+            btnSearchSuppliers = new Button();
+            dgvSuppliers = new DataGridView();
+            btnAddSupplier = new Button();
             tabInventory = new TabPage();
             btnSearchInventory = new Button();
             txtSearchInventory = new TextBox();
@@ -117,6 +121,15 @@
             btnDeleteItem = new Button();
             btnEditItem = new Button();
             dgvItems = new DataGridView();
+            tabTransactions = new TabPage();
+            dtpTxnEnd = new DateTimePicker();
+            dtpTxnStart = new DateTimePicker();
+            cboTxnLocation = new ComboBox();
+            cboTxnStatus = new ComboBox();
+            btnSearchTxn = new Button();
+            dgvTransactions = new DataGridView();
+            btnCancelTxn = new Button();
+            btnEditTxn = new Button();
             picLogout = new PictureBox();
             picHelp = new PictureBox();
             picRefresh = new PictureBox();
@@ -134,6 +147,8 @@
             tabStoreOrder.SuspendLayout();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStoreOrders).BeginInit();
+            tabSuppliers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvSuppliers).BeginInit();
             tabInventory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvInventory).BeginInit();
             tabLocations.SuspendLayout();
@@ -145,6 +160,8 @@
             grpItemView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picItem).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvItems).BeginInit();
+            tabTransactions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTransactions).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picLogout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picHelp).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picRefresh).BeginInit();
@@ -167,7 +184,7 @@
             lblEmpUsername.AutoSize = true;
             lblEmpUsername.Location = new Point(101, 16);
             lblEmpUsername.Name = "lblEmpUsername";
-            lblEmpUsername.Size = new Size(47, 17);
+            lblEmpUsername.Size = new Size(40, 15);
             lblEmpUsername.TabIndex = 15;
             lblEmpUsername.Text = "User: ";
             // 
@@ -176,54 +193,45 @@
             lblEmpLocation.AutoSize = true;
             lblEmpLocation.Location = new Point(101, 41);
             lblEmpLocation.Name = "lblEmpLocation";
-            lblEmpLocation.Size = new Size(71, 17);
+            lblEmpLocation.Size = new Size(60, 15);
             lblEmpLocation.TabIndex = 16;
             lblEmpLocation.Text = "Location: ";
             // 
             // tabDelivery
             // 
-            tabDelivery.Location = new Point(4, 26);
+            tabDelivery.Location = new Point(4, 24);
             tabDelivery.Name = "tabDelivery";
-            tabDelivery.Size = new Size(1280, 689);
+            tabDelivery.Size = new Size(1280, 691);
             tabDelivery.TabIndex = 12;
             tabDelivery.Text = "Deliveries";
             tabDelivery.UseVisualStyleBackColor = true;
             // 
             // tabShipReceipts
             // 
-            tabShipReceipts.Location = new Point(4, 26);
+            tabShipReceipts.Location = new Point(4, 24);
             tabShipReceipts.Name = "tabShipReceipts";
-            tabShipReceipts.Size = new Size(1280, 689);
+            tabShipReceipts.Size = new Size(1280, 691);
             tabShipReceipts.TabIndex = 11;
             tabShipReceipts.Text = "Shipping Receipts";
             tabShipReceipts.UseVisualStyleBackColor = true;
             // 
             // tabSupplierOrder
             // 
-            tabSupplierOrder.Location = new Point(4, 26);
+            tabSupplierOrder.Location = new Point(4, 24);
             tabSupplierOrder.Name = "tabSupplierOrder";
-            tabSupplierOrder.Size = new Size(1280, 689);
+            tabSupplierOrder.Size = new Size(1280, 691);
             tabSupplierOrder.TabIndex = 10;
             tabSupplierOrder.Text = "Supplier Orders";
             tabSupplierOrder.UseVisualStyleBackColor = true;
             // 
             // tabLossReturn
             // 
-            tabLossReturn.Location = new Point(4, 26);
+            tabLossReturn.Location = new Point(4, 24);
             tabLossReturn.Name = "tabLossReturn";
-            tabLossReturn.Size = new Size(1280, 689);
+            tabLossReturn.Size = new Size(1280, 691);
             tabLossReturn.TabIndex = 9;
             tabLossReturn.Text = "Loss/Return";
             tabLossReturn.UseVisualStyleBackColor = true;
-            // 
-            // tabEmergencyOrder
-            // 
-            tabEmergencyOrder.Location = new Point(4, 26);
-            tabEmergencyOrder.Name = "tabEmergencyOrder";
-            tabEmergencyOrder.Size = new Size(1280, 689);
-            tabEmergencyOrder.TabIndex = 8;
-            tabEmergencyOrder.Text = "Emergency Orders";
-            tabEmergencyOrder.UseVisualStyleBackColor = true;
             // 
             // tabStoreOrder
             // 
@@ -243,9 +251,9 @@
             tabStoreOrder.Controls.Add(btnEditOrder);
             tabStoreOrder.Controls.Add(dgvStoreOrders);
             tabStoreOrder.Controls.Add(btnCreateOrder);
-            tabStoreOrder.Location = new Point(4, 26);
+            tabStoreOrder.Location = new Point(4, 24);
             tabStoreOrder.Name = "tabStoreOrder";
-            tabStoreOrder.Size = new Size(1280, 689);
+            tabStoreOrder.Size = new Size(1280, 691);
             tabStoreOrder.TabIndex = 7;
             tabStoreOrder.Text = "Store Orders";
             tabStoreOrder.UseVisualStyleBackColor = true;
@@ -257,7 +265,7 @@
             btnAcceptOrder.Cursor = Cursors.Hand;
             btnAcceptOrder.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             btnAcceptOrder.ForeColor = Color.White;
-            btnAcceptOrder.Location = new Point(406, 648);
+            btnAcceptOrder.Location = new Point(406, 645);
             btnAcceptOrder.Name = "btnAcceptOrder";
             btnAcceptOrder.Size = new Size(206, 38);
             btnAcceptOrder.TabIndex = 64;
@@ -288,7 +296,7 @@
             btnEditBackOrder.Cursor = Cursors.Hand;
             btnEditBackOrder.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             btnEditBackOrder.ForeColor = Color.White;
-            btnEditBackOrder.Location = new Point(618, 648);
+            btnEditBackOrder.Location = new Point(618, 645);
             btnEditBackOrder.Name = "btnEditBackOrder";
             btnEditBackOrder.Size = new Size(206, 38);
             btnEditBackOrder.TabIndex = 62;
@@ -304,7 +312,7 @@
             btnFulfillOrder.Cursor = Cursors.Hand;
             btnFulfillOrder.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             btnFulfillOrder.ForeColor = Color.White;
-            btnFulfillOrder.Location = new Point(1042, 648);
+            btnFulfillOrder.Location = new Point(1042, 645);
             btnFulfillOrder.Name = "btnFulfillOrder";
             btnFulfillOrder.Size = new Size(206, 38);
             btnFulfillOrder.TabIndex = 61;
@@ -314,6 +322,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox1.Controls.Add(radEmergency);
             groupBox1.Controls.Add(radRegular);
             groupBox1.Location = new Point(36, 633);
@@ -328,7 +337,7 @@
             radEmergency.AutoSize = true;
             radEmergency.Location = new Point(105, 20);
             radEmergency.Name = "radEmergency";
-            radEmergency.Size = new Size(104, 21);
+            radEmergency.Size = new Size(87, 19);
             radEmergency.TabIndex = 59;
             radEmergency.Tag = "Emergency";
             radEmergency.Text = "Emergency";
@@ -340,7 +349,7 @@
             radRegular.Checked = true;
             radRegular.Location = new Point(18, 20);
             radRegular.Name = "radRegular";
-            radRegular.Size = new Size(80, 21);
+            radRegular.Size = new Size(69, 19);
             radRegular.TabIndex = 58;
             radRegular.TabStop = true;
             radRegular.Tag = "Store";
@@ -369,7 +378,7 @@
             btnRecieveOrder.Cursor = Cursors.Hand;
             btnRecieveOrder.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             btnRecieveOrder.ForeColor = Color.White;
-            btnRecieveOrder.Location = new Point(830, 648);
+            btnRecieveOrder.Location = new Point(830, 645);
             btnRecieveOrder.Name = "btnRecieveOrder";
             btnRecieveOrder.Size = new Size(206, 38);
             btnRecieveOrder.TabIndex = 56;
@@ -383,7 +392,7 @@
             dtpOrderEnd.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             dtpOrderEnd.Location = new Point(898, 16);
             dtpOrderEnd.Name = "dtpOrderEnd";
-            dtpOrderEnd.Size = new Size(178, 29);
+            dtpOrderEnd.Size = new Size(178, 25);
             dtpOrderEnd.TabIndex = 55;
             // 
             // dtpOrderStart
@@ -392,7 +401,7 @@
             dtpOrderStart.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             dtpOrderStart.Location = new Point(713, 16);
             dtpOrderStart.Name = "dtpOrderStart";
-            dtpOrderStart.Size = new Size(179, 29);
+            dtpOrderStart.Size = new Size(179, 25);
             dtpOrderStart.TabIndex = 54;
             // 
             // chkClosedOrders
@@ -402,7 +411,7 @@
             chkClosedOrders.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             chkClosedOrders.Location = new Point(36, 18);
             chkClosedOrders.Name = "chkClosedOrders";
-            chkClosedOrders.Size = new Size(248, 26);
+            chkClosedOrders.Size = new Size(192, 21);
             chkClosedOrders.TabIndex = 53;
             chkClosedOrders.Text = "Include Cancelled Orders";
             chkClosedOrders.UseVisualStyleBackColor = false;
@@ -416,7 +425,7 @@
             cboFilterLocation.FormattingEnabled = true;
             cboFilterLocation.Location = new Point(248, 15);
             cboFilterLocation.Name = "cboFilterLocation";
-            cboFilterLocation.Size = new Size(261, 31);
+            cboFilterLocation.Size = new Size(261, 26);
             cboFilterLocation.TabIndex = 52;
             // 
             // cboFilterStatus
@@ -428,7 +437,7 @@
             cboFilterStatus.FormattingEnabled = true;
             cboFilterStatus.Location = new Point(515, 15);
             cboFilterStatus.Name = "cboFilterStatus";
-            cboFilterStatus.Size = new Size(192, 31);
+            cboFilterStatus.Size = new Size(192, 26);
             cboFilterStatus.TabIndex = 51;
             // 
             // btnSearchOrders
@@ -501,39 +510,124 @@
             // 
             // tabReports
             // 
-            tabReports.Location = new Point(4, 26);
+            tabReports.Location = new Point(4, 24);
             tabReports.Name = "tabReports";
-            tabReports.Size = new Size(1280, 689);
+            tabReports.Size = new Size(1280, 691);
             tabReports.TabIndex = 6;
             tabReports.Text = "Reports";
             tabReports.UseVisualStyleBackColor = true;
             // 
             // tabPOSLink
             // 
-            tabPOSLink.Location = new Point(4, 26);
+            tabPOSLink.Location = new Point(4, 24);
             tabPOSLink.Name = "tabPOSLink";
-            tabPOSLink.Size = new Size(1280, 689);
+            tabPOSLink.Size = new Size(1280, 691);
             tabPOSLink.TabIndex = 5;
             tabPOSLink.Text = "POS Link";
             tabPOSLink.UseVisualStyleBackColor = true;
             // 
             // tabPermissions
             // 
-            tabPermissions.Location = new Point(4, 26);
+            tabPermissions.Location = new Point(4, 24);
             tabPermissions.Name = "tabPermissions";
-            tabPermissions.Size = new Size(1280, 689);
+            tabPermissions.Size = new Size(1280, 691);
             tabPermissions.TabIndex = 4;
             tabPermissions.Text = "Permissions";
             tabPermissions.UseVisualStyleBackColor = true;
             // 
             // tabSuppliers
             // 
-            tabSuppliers.Location = new Point(4, 26);
+            tabSuppliers.Controls.Add(btnEditSupplier);
+            tabSuppliers.Controls.Add(cboSupplierName);
+            tabSuppliers.Controls.Add(btnSearchSuppliers);
+            tabSuppliers.Controls.Add(dgvSuppliers);
+            tabSuppliers.Controls.Add(btnAddSupplier);
+            tabSuppliers.Location = new Point(4, 24);
             tabSuppliers.Name = "tabSuppliers";
-            tabSuppliers.Size = new Size(1280, 689);
+            tabSuppliers.Size = new Size(1280, 691);
             tabSuppliers.TabIndex = 3;
             tabSuppliers.Text = "Suppliers";
             tabSuppliers.UseVisualStyleBackColor = true;
+            // 
+            // btnEditSupplier
+            // 
+            btnEditSupplier.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnEditSupplier.BackColor = Color.OrangeRed;
+            btnEditSupplier.Cursor = Cursors.Hand;
+            btnEditSupplier.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            btnEditSupplier.ForeColor = Color.White;
+            btnEditSupplier.Location = new Point(1044, 643);
+            btnEditSupplier.Name = "btnEditSupplier";
+            btnEditSupplier.Size = new Size(200, 38);
+            btnEditSupplier.TabIndex = 81;
+            btnEditSupplier.Text = "EDIT SUPPLIER";
+            btnEditSupplier.UseVisualStyleBackColor = false;
+            btnEditSupplier.Click += btnEditSupplier_Click;
+            // 
+            // cboSupplierName
+            // 
+            cboSupplierName.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cboSupplierName.BackColor = Color.White;
+            cboSupplierName.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSupplierName.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cboSupplierName.FormattingEnabled = true;
+            cboSupplierName.Location = new Point(815, 14);
+            cboSupplierName.Name = "cboSupplierName";
+            cboSupplierName.Size = new Size(261, 26);
+            cboSupplierName.TabIndex = 77;
+            // 
+            // btnSearchSuppliers
+            // 
+            btnSearchSuppliers.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSearchSuppliers.BackColor = Color.OrangeRed;
+            btnSearchSuppliers.Cursor = Cursors.Hand;
+            btnSearchSuppliers.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSearchSuppliers.ForeColor = Color.White;
+            btnSearchSuppliers.Location = new Point(1082, 9);
+            btnSearchSuppliers.Name = "btnSearchSuppliers";
+            btnSearchSuppliers.Size = new Size(160, 35);
+            btnSearchSuppliers.TabIndex = 75;
+            btnSearchSuppliers.Text = "SEARCH";
+            btnSearchSuppliers.UseVisualStyleBackColor = false;
+            btnSearchSuppliers.Click += btnSearchSuppliers_Click;
+            // 
+            // dgvSuppliers
+            // 
+            dgvSuppliers.AllowUserToAddRows = false;
+            dgvSuppliers.AllowUserToDeleteRows = false;
+            dgvSuppliers.AllowUserToResizeColumns = false;
+            dgvSuppliers.AllowUserToResizeRows = false;
+            dgvSuppliers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvSuppliers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvSuppliers.BackgroundColor = Color.White;
+            dgvSuppliers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvSuppliers.Location = new Point(36, 56);
+            dgvSuppliers.MultiSelect = false;
+            dgvSuppliers.Name = "dgvSuppliers";
+            dgvSuppliers.ReadOnly = true;
+            dgvSuppliers.RowHeadersVisible = false;
+            dgvSuppliers.RowHeadersWidth = 51;
+            dgvSuppliers.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvSuppliers.RowTemplate.Height = 40;
+            dgvSuppliers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSuppliers.Size = new Size(1207, 572);
+            dgvSuppliers.TabIndex = 74;
+            dgvSuppliers.CellFormatting += dgvSuppliers_CellFormatting;
+            // 
+            // btnAddSupplier
+            // 
+            btnAddSupplier.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnAddSupplier.BackColor = Color.OrangeRed;
+            btnAddSupplier.Cursor = Cursors.Hand;
+            btnAddSupplier.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            btnAddSupplier.ForeColor = Color.White;
+            btnAddSupplier.Location = new Point(838, 643);
+            btnAddSupplier.Name = "btnAddSupplier";
+            btnAddSupplier.Size = new Size(200, 38);
+            btnAddSupplier.TabIndex = 80;
+            btnAddSupplier.Text = "ADD SUPPLIER";
+            btnAddSupplier.UseVisualStyleBackColor = false;
+            btnAddSupplier.Click += btnAddSupplier_Click;
             // 
             // tabInventory
             // 
@@ -541,9 +635,9 @@
             tabInventory.Controls.Add(txtSearchInventory);
             tabInventory.Controls.Add(btnEditInventory);
             tabInventory.Controls.Add(dgvInventory);
-            tabInventory.Location = new Point(4, 26);
+            tabInventory.Location = new Point(4, 24);
             tabInventory.Name = "tabInventory";
-            tabInventory.Size = new Size(1280, 689);
+            tabInventory.Size = new Size(1280, 691);
             tabInventory.TabIndex = 2;
             tabInventory.Text = "Inventory";
             tabInventory.UseVisualStyleBackColor = true;
@@ -570,7 +664,7 @@
             txtSearchInventory.Location = new Point(711, 17);
             txtSearchInventory.Name = "txtSearchInventory";
             txtSearchInventory.PlaceholderText = "Search ID or Name";
-            txtSearchInventory.Size = new Size(367, 30);
+            txtSearchInventory.Size = new Size(367, 26);
             txtSearchInventory.TabIndex = 49;
             // 
             // btnEditInventory
@@ -620,10 +714,10 @@
             tabLocations.Controls.Add(btnEditSite);
             tabLocations.Controls.Add(dgvSites);
             tabLocations.Controls.Add(btnAddSite);
-            tabLocations.Location = new Point(4, 26);
+            tabLocations.Location = new Point(4, 24);
             tabLocations.Name = "tabLocations";
             tabLocations.Padding = new Padding(3);
-            tabLocations.Size = new Size(1280, 689);
+            tabLocations.Size = new Size(1280, 691);
             tabLocations.TabIndex = 1;
             tabLocations.Text = "Locations";
             tabLocations.UseVisualStyleBackColor = true;
@@ -637,7 +731,7 @@
             cboFilterSiteDay.FormattingEnabled = true;
             cboFilterSiteDay.Location = new Point(213, 17);
             cboFilterSiteDay.Name = "cboFilterSiteDay";
-            cboFilterSiteDay.Size = new Size(243, 31);
+            cboFilterSiteDay.Size = new Size(243, 26);
             cboFilterSiteDay.TabIndex = 52;
             // 
             // cboFilterSiteProvince
@@ -649,7 +743,7 @@
             cboFilterSiteProvince.FormattingEnabled = true;
             cboFilterSiteProvince.Location = new Point(462, 17);
             cboFilterSiteProvince.Name = "cboFilterSiteProvince";
-            cboFilterSiteProvince.Size = new Size(243, 31);
+            cboFilterSiteProvince.Size = new Size(243, 26);
             cboFilterSiteProvince.TabIndex = 51;
             // 
             // btnSearchSites
@@ -675,7 +769,7 @@
             txtSearchSites.Location = new Point(711, 17);
             txtSearchSites.Name = "txtSearchSites";
             txtSearchSites.PlaceholderText = "Search ID or Name";
-            txtSearchSites.Size = new Size(367, 30);
+            txtSearchSites.Size = new Size(367, 26);
             txtSearchSites.TabIndex = 49;
             // 
             // btnEditSite
@@ -741,10 +835,10 @@
             tabEmployees.Controls.Add(btnEditEmp);
             tabEmployees.Controls.Add(dgvEmployees);
             tabEmployees.Controls.Add(btnAddEmp);
-            tabEmployees.Location = new Point(4, 26);
+            tabEmployees.Location = new Point(4, 24);
             tabEmployees.Name = "tabEmployees";
             tabEmployees.Padding = new Padding(3);
-            tabEmployees.Size = new Size(1280, 689);
+            tabEmployees.Size = new Size(1280, 691);
             tabEmployees.TabIndex = 0;
             tabEmployees.Text = "Employees";
             tabEmployees.UseVisualStyleBackColor = true;
@@ -758,7 +852,7 @@
             cboSearchEmpLocations.FormattingEnabled = true;
             cboSearchEmpLocations.Location = new Point(212, 15);
             cboSearchEmpLocations.Name = "cboSearchEmpLocations";
-            cboSearchEmpLocations.Size = new Size(243, 31);
+            cboSearchEmpLocations.Size = new Size(243, 26);
             cboSearchEmpLocations.TabIndex = 44;
             // 
             // cboSearchEmpPosition
@@ -770,7 +864,7 @@
             cboSearchEmpPosition.FormattingEnabled = true;
             cboSearchEmpPosition.Location = new Point(461, 15);
             cboSearchEmpPosition.Name = "cboSearchEmpPosition";
-            cboSearchEmpPosition.Size = new Size(243, 31);
+            cboSearchEmpPosition.Size = new Size(243, 26);
             cboSearchEmpPosition.TabIndex = 43;
             // 
             // btnSearchEmp
@@ -796,7 +890,7 @@
             txtSearchEmp.Location = new Point(710, 15);
             txtSearchEmp.Name = "txtSearchEmp";
             txtSearchEmp.PlaceholderText = "Search ID or Name";
-            txtSearchEmp.Size = new Size(367, 30);
+            txtSearchEmp.Size = new Size(367, 26);
             txtSearchEmp.TabIndex = 38;
             // 
             // btnDeleteEmp
@@ -878,12 +972,12 @@
             tbcMainScreen.Controls.Add(tabPOSLink);
             tbcMainScreen.Controls.Add(tabReports);
             tbcMainScreen.Controls.Add(tabStoreOrder);
-            tbcMainScreen.Controls.Add(tabEmergencyOrder);
             tbcMainScreen.Controls.Add(tabLossReturn);
             tbcMainScreen.Controls.Add(tabSupplierOrder);
             tbcMainScreen.Controls.Add(tabShipReceipts);
             tbcMainScreen.Controls.Add(tabDelivery);
             tbcMainScreen.Controls.Add(tabItems);
+            tbcMainScreen.Controls.Add(tabTransactions);
             tbcMainScreen.Location = new Point(65, 76);
             tbcMainScreen.Name = "tbcMainScreen";
             tbcMainScreen.SelectedIndex = 0;
@@ -900,10 +994,10 @@
             tabItems.Controls.Add(btnDeleteItem);
             tabItems.Controls.Add(btnEditItem);
             tabItems.Controls.Add(dgvItems);
-            tabItems.Location = new Point(4, 26);
+            tabItems.Location = new Point(4, 24);
             tabItems.Name = "tabItems";
             tabItems.Padding = new Padding(3);
-            tabItems.Size = new Size(1280, 689);
+            tabItems.Size = new Size(1280, 691);
             tabItems.TabIndex = 13;
             tabItems.Text = "Items";
             // 
@@ -929,7 +1023,7 @@
             txtSearchItem.Location = new Point(724, 18);
             txtSearchItem.Name = "txtSearchItem";
             txtSearchItem.PlaceholderText = "Search ID or Name";
-            txtSearchItem.Size = new Size(367, 30);
+            txtSearchItem.Size = new Size(367, 26);
             txtSearchItem.TabIndex = 36;
             // 
             // grpItemView
@@ -974,7 +1068,7 @@
             chkItemActive.AutoSize = true;
             chkItemActive.Location = new Point(619, 19);
             chkItemActive.Name = "chkItemActive";
-            chkItemActive.Size = new Size(69, 21);
+            chkItemActive.Size = new Size(57, 19);
             chkItemActive.TabIndex = 35;
             chkItemActive.Text = "Active";
             chkItemActive.UseVisualStyleBackColor = true;
@@ -1045,7 +1139,7 @@
             label11.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label11.Location = new Point(18, 500);
             label11.Name = "label11";
-            label11.Size = new Size(50, 18);
+            label11.Size = new Size(40, 15);
             label11.TabIndex = 30;
             label11.Text = "Notes";
             // 
@@ -1063,7 +1157,7 @@
             txtItemCost.Enabled = false;
             txtItemCost.Location = new Point(399, 456);
             txtItemCost.Name = "txtItemCost";
-            txtItemCost.Size = new Size(132, 25);
+            txtItemCost.Size = new Size(132, 21);
             txtItemCost.TabIndex = 29;
             // 
             // txtItemWeight
@@ -1071,7 +1165,7 @@
             txtItemWeight.Enabled = false;
             txtItemWeight.Location = new Point(399, 378);
             txtItemWeight.Name = "txtItemWeight";
-            txtItemWeight.Size = new Size(132, 25);
+            txtItemWeight.Size = new Size(132, 21);
             txtItemWeight.TabIndex = 28;
             // 
             // txtItemRetail
@@ -1079,7 +1173,7 @@
             txtItemRetail.Enabled = false;
             txtItemRetail.Location = new Point(544, 456);
             txtItemRetail.Name = "txtItemRetail";
-            txtItemRetail.Size = new Size(132, 25);
+            txtItemRetail.Size = new Size(132, 21);
             txtItemRetail.TabIndex = 27;
             // 
             // txtItemSKU
@@ -1087,7 +1181,7 @@
             txtItemSKU.Enabled = false;
             txtItemSKU.Location = new Point(399, 111);
             txtItemSKU.Name = "txtItemSKU";
-            txtItemSKU.Size = new Size(132, 25);
+            txtItemSKU.Size = new Size(132, 21);
             txtItemSKU.TabIndex = 25;
             // 
             // label10
@@ -1096,7 +1190,7 @@
             label10.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label10.Location = new Point(544, 433);
             label10.Name = "label10";
-            label10.Size = new Size(90, 18);
+            label10.Size = new Size(72, 15);
             label10.TabIndex = 23;
             label10.Text = "Retail Price";
             // 
@@ -1106,7 +1200,7 @@
             label9.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label9.Location = new Point(399, 433);
             label9.Name = "label9";
-            label9.Size = new Size(82, 18);
+            label9.Size = new Size(66, 15);
             label9.TabIndex = 21;
             label9.Text = "Cost Price";
             // 
@@ -1116,7 +1210,7 @@
             label8.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label8.Location = new Point(544, 357);
             label8.Name = "label8";
-            label8.Size = new Size(79, 18);
+            label8.Size = new Size(63, 15);
             label8.TabIndex = 19;
             label8.Text = "Case Size";
             // 
@@ -1126,7 +1220,7 @@
             label7.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label7.Location = new Point(399, 357);
             label7.Name = "label7";
-            label7.Size = new Size(57, 18);
+            label7.Size = new Size(47, 15);
             label7.TabIndex = 17;
             label7.Text = "Weight";
             // 
@@ -1136,7 +1230,7 @@
             cboItemSupplier.FormattingEnabled = true;
             cboItemSupplier.Location = new Point(220, 456);
             cboItemSupplier.Name = "cboItemSupplier";
-            cboItemSupplier.Size = new Size(158, 25);
+            cboItemSupplier.Size = new Size(158, 23);
             cboItemSupplier.TabIndex = 16;
             // 
             // label6
@@ -1145,7 +1239,7 @@
             label6.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label6.Location = new Point(220, 435);
             label6.Name = "label6";
-            label6.Size = new Size(68, 18);
+            label6.Size = new Size(54, 15);
             label6.TabIndex = 15;
             label6.Text = "Supplier";
             // 
@@ -1155,7 +1249,7 @@
             cboItemCategory.FormattingEnabled = true;
             cboItemCategory.Location = new Point(18, 456);
             cboItemCategory.Name = "cboItemCategory";
-            cboItemCategory.Size = new Size(182, 25);
+            cboItemCategory.Size = new Size(182, 23);
             cboItemCategory.TabIndex = 14;
             // 
             // label5
@@ -1164,7 +1258,7 @@
             label5.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label5.Location = new Point(18, 435);
             label5.Name = "label5";
-            label5.Size = new Size(72, 18);
+            label5.Size = new Size(58, 15);
             label5.TabIndex = 12;
             label5.Text = "Category";
             // 
@@ -1174,7 +1268,7 @@
             label3.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label3.Location = new Point(399, 230);
             label3.Name = "label3";
-            label3.Size = new Size(90, 18);
+            label3.Size = new Size(72, 15);
             label3.TabIndex = 9;
             label3.Text = "Description";
             // 
@@ -1184,7 +1278,7 @@
             label4.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label4.Location = new Point(399, 90);
             label4.Name = "label4";
-            label4.Size = new Size(40, 18);
+            label4.Size = new Size(31, 15);
             label4.TabIndex = 7;
             label4.Text = "SKU";
             // 
@@ -1192,7 +1286,7 @@
             // 
             txtItemName.Location = new Point(399, 181);
             txtItemName.Name = "txtItemName";
-            txtItemName.Size = new Size(277, 25);
+            txtItemName.Size = new Size(277, 21);
             txtItemName.TabIndex = 4;
             // 
             // label2
@@ -1201,7 +1295,7 @@
             label2.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label2.Location = new Point(399, 160);
             label2.Name = "label2";
-            label2.Size = new Size(48, 18);
+            label2.Size = new Size(40, 15);
             label2.TabIndex = 3;
             label2.Text = "Name";
             // 
@@ -1210,7 +1304,7 @@
             txtItemID.Enabled = false;
             txtItemID.Location = new Point(399, 41);
             txtItemID.Name = "txtItemID";
-            txtItemID.Size = new Size(132, 25);
+            txtItemID.Size = new Size(132, 21);
             txtItemID.TabIndex = 2;
             // 
             // label1
@@ -1219,7 +1313,7 @@
             label1.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(399, 20);
             label1.Name = "label1";
-            label1.Size = new Size(57, 18);
+            label1.Size = new Size(46, 15);
             label1.TabIndex = 1;
             label1.Text = "Item ID";
             // 
@@ -1250,7 +1344,7 @@
             txtItemSize.Enabled = false;
             txtItemSize.Location = new Point(544, 378);
             txtItemSize.Name = "txtItemSize";
-            txtItemSize.Size = new Size(132, 25);
+            txtItemSize.Size = new Size(132, 21);
             txtItemSize.TabIndex = 26;
             // 
             // btnDeleteItem
@@ -1305,6 +1399,133 @@
             dgvItems.Size = new Size(533, 578);
             dgvItems.TabIndex = 10;
             dgvItems.CellFormatting += dgvItems_CellFormatting;
+            // 
+            // tabTransactions
+            // 
+            tabTransactions.Controls.Add(dtpTxnEnd);
+            tabTransactions.Controls.Add(dtpTxnStart);
+            tabTransactions.Controls.Add(cboTxnLocation);
+            tabTransactions.Controls.Add(cboTxnStatus);
+            tabTransactions.Controls.Add(btnSearchTxn);
+            tabTransactions.Controls.Add(dgvTransactions);
+            tabTransactions.Controls.Add(btnCancelTxn);
+            tabTransactions.Controls.Add(btnEditTxn);
+            tabTransactions.Location = new Point(4, 24);
+            tabTransactions.Name = "tabTransactions";
+            tabTransactions.Padding = new Padding(3);
+            tabTransactions.Size = new Size(1280, 691);
+            tabTransactions.TabIndex = 14;
+            tabTransactions.Text = "Transactions";
+            tabTransactions.UseVisualStyleBackColor = true;
+            // 
+            // dtpTxnEnd
+            // 
+            dtpTxnEnd.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            dtpTxnEnd.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            dtpTxnEnd.Location = new Point(896, 14);
+            dtpTxnEnd.Name = "dtpTxnEnd";
+            dtpTxnEnd.Size = new Size(178, 25);
+            dtpTxnEnd.TabIndex = 70;
+            // 
+            // dtpTxnStart
+            // 
+            dtpTxnStart.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            dtpTxnStart.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            dtpTxnStart.Location = new Point(711, 14);
+            dtpTxnStart.Name = "dtpTxnStart";
+            dtpTxnStart.Size = new Size(179, 25);
+            dtpTxnStart.TabIndex = 69;
+            // 
+            // cboTxnLocation
+            // 
+            cboTxnLocation.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cboTxnLocation.BackColor = Color.White;
+            cboTxnLocation.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTxnLocation.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cboTxnLocation.FormattingEnabled = true;
+            cboTxnLocation.Location = new Point(246, 13);
+            cboTxnLocation.Name = "cboTxnLocation";
+            cboTxnLocation.Size = new Size(261, 26);
+            cboTxnLocation.TabIndex = 68;
+            // 
+            // cboTxnStatus
+            // 
+            cboTxnStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cboTxnStatus.BackColor = Color.White;
+            cboTxnStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTxnStatus.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cboTxnStatus.FormattingEnabled = true;
+            cboTxnStatus.Location = new Point(513, 13);
+            cboTxnStatus.Name = "cboTxnStatus";
+            cboTxnStatus.Size = new Size(192, 26);
+            cboTxnStatus.TabIndex = 67;
+            // 
+            // btnSearchTxn
+            // 
+            btnSearchTxn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSearchTxn.BackColor = Color.OrangeRed;
+            btnSearchTxn.Cursor = Cursors.Hand;
+            btnSearchTxn.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSearchTxn.ForeColor = Color.White;
+            btnSearchTxn.Location = new Point(1080, 9);
+            btnSearchTxn.Name = "btnSearchTxn";
+            btnSearchTxn.Size = new Size(160, 35);
+            btnSearchTxn.TabIndex = 66;
+            btnSearchTxn.Text = "SEARCH";
+            btnSearchTxn.UseVisualStyleBackColor = false;
+            // 
+            // dgvTransactions
+            // 
+            dgvTransactions.AllowUserToAddRows = false;
+            dgvTransactions.AllowUserToDeleteRows = false;
+            dgvTransactions.AllowUserToResizeColumns = false;
+            dgvTransactions.AllowUserToResizeRows = false;
+            dgvTransactions.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvTransactions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvTransactions.BackgroundColor = Color.White;
+            dgvTransactions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvTransactions.Location = new Point(34, 56);
+            dgvTransactions.MultiSelect = false;
+            dgvTransactions.Name = "dgvTransactions";
+            dgvTransactions.ReadOnly = true;
+            dgvTransactions.RowHeadersVisible = false;
+            dgvTransactions.RowHeadersWidth = 51;
+            dgvTransactions.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvTransactions.RowTemplate.Height = 40;
+            dgvTransactions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvTransactions.Size = new Size(1207, 572);
+            dgvTransactions.TabIndex = 65;
+            dgvTransactions.CellFormatting += dgvTransactions_CellFormatting;
+            // 
+            // btnCancelTxn
+            // 
+            btnCancelTxn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCancelTxn.BackColor = Color.OrangeRed;
+            btnCancelTxn.Cursor = Cursors.Hand;
+            btnCancelTxn.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            btnCancelTxn.ForeColor = Color.White;
+            btnCancelTxn.Location = new Point(1018, 643);
+            btnCancelTxn.Name = "btnCancelTxn";
+            btnCancelTxn.Size = new Size(224, 38);
+            btnCancelTxn.TabIndex = 73;
+            btnCancelTxn.Text = "CLOSE TRANSACTION";
+            btnCancelTxn.UseVisualStyleBackColor = false;
+            btnCancelTxn.Click += btnCancelTxn_Click;
+            // 
+            // btnEditTxn
+            // 
+            btnEditTxn.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnEditTxn.BackColor = Color.OrangeRed;
+            btnEditTxn.Cursor = Cursors.Hand;
+            btnEditTxn.Font = new Font("Cooper Black", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            btnEditTxn.ForeColor = Color.White;
+            btnEditTxn.Location = new Point(788, 643);
+            btnEditTxn.Name = "btnEditTxn";
+            btnEditTxn.Size = new Size(224, 38);
+            btnEditTxn.TabIndex = 71;
+            btnEditTxn.Text = "MODIFY TRANSACTION";
+            btnEditTxn.UseVisualStyleBackColor = false;
+            btnEditTxn.Click += btnEditTxn_Click;
             // 
             // picLogout
             // 
@@ -1448,7 +1669,7 @@
             // 
             // frmDashboard
             // 
-            AutoScaleDimensions = new SizeF(8F, 17F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1424, 841);
@@ -1475,6 +1696,8 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStoreOrders).EndInit();
+            tabSuppliers.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvSuppliers).EndInit();
             tabInventory.ResumeLayout(false);
             tabInventory.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvInventory).EndInit();
@@ -1491,6 +1714,8 @@
             grpItemView.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picItem).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvItems).EndInit();
+            tabTransactions.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvTransactions).EndInit();
             ((System.ComponentModel.ISupportInitialize)picLogout).EndInit();
             ((System.ComponentModel.ISupportInitialize)picHelp).EndInit();
             ((System.ComponentModel.ISupportInitialize)picRefresh).EndInit();
@@ -1509,7 +1734,6 @@
         private TabPage tabShipReceipts;
         private TabPage tabSupplierOrder;
         private TabPage tabLossReturn;
-        private TabPage tabEmergencyOrder;
         private TabPage tabStoreOrder;
         private TabPage tabReports;
         private TabPage tabPOSLink;
@@ -1604,5 +1828,21 @@
         private TextBox txtSearchInventory;
         private Button btnEditInventory;
         private DataGridView dgvInventory;
+        private TabPage tabTransactions;
+        private DateTimePicker dtpTxnEnd;
+        private DateTimePicker dtpTxnStart;
+        private ComboBox cboTxnLocation;
+        private ComboBox cboTxnStatus;
+        private Button btnSearchTxn;
+        private DataGridView dgvTransactions;
+        private Button btnCancelTxn;
+        private Button btnEditTxn;
+        private ComboBox cboSupplierName;
+        private ComboBox comboBox2;
+        private Button btnSearchSuppliers;
+        private DataGridView dgvSuppliers;
+        private Button button2;
+        private Button btnAddSupplier;
+        private Button btnEditSupplier;
     }
 }

@@ -21,7 +21,7 @@ namespace ISDP_Cosman_Dallas
         }
 
         private System.Windows.Forms.Timer logoutTimer;
-        private const double timerMins = 10;
+        private const double timerMins = 30;
         private bool autoLogout = false;
 
         private int txnID;
@@ -151,6 +151,7 @@ namespace ISDP_Cosman_Dallas
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabSuppliers);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabPOSLink);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabReports);
+            tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabTransactions);
         }
 
         private void DisplayStoreManager()
@@ -158,7 +159,6 @@ namespace ISDP_Cosman_Dallas
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabReports);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabLocations);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabStoreOrder);
-            tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabEmergencyOrder);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabInventory);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabLossReturn);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabEmployees);
@@ -168,13 +168,13 @@ namespace ISDP_Cosman_Dallas
         {
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabSupplierOrder);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabLocations);
-            tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabEmergencyOrder);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabStoreOrder);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabInventory);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabReports);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabLossReturn);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabItems);
             tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabEmployees);
+            tbcMainScreen.TabPages.Insert(tbcMainScreen.TabCount, tabSuppliers);
         }
 
         private void DisplayFinancialManager()
@@ -411,6 +411,47 @@ namespace ISDP_Cosman_Dallas
             {
                 dgvInventory.DataSource = InventoryAccessor.GetInventoryBySiteID(theEmployee.SiteID);
 
+            }
+            else if (picRefresh.Tag.ToString().Equals("Transactions"))
+            {
+                cboTxnLocation.Items.Clear();
+                cboTxnStatus.Items.Clear();
+
+                cboTxnStatus.Items.Add("All Statuses");
+                cboTxnLocation.Items.Add("All Locations");
+
+                List<TransactionStatus> statuses = TransactionStatusAccessor.GetAllTransactionStatus();
+                List<Site> sites = SiteAccessor.GetAllSites();
+
+                foreach (TransactionStatus status in statuses)
+                {
+                    cboTxnStatus.Items.Add(status.StatusName);
+                }
+                foreach (Site site in sites)
+                {
+                    cboTxnLocation.Items.Add(site.Name);
+                }
+
+                cboTxnStatus.SelectedIndex = 0;
+                cboTxnLocation.SelectedIndex = 0;
+                dgvTransactions.DataSource = GetStoreOrders("SELECT * FROM txn WHERE Status != 'Cancelled'");
+            }
+
+            else if (picRefresh.Tag.ToString().Equals("Suppliers"))
+            {
+                List<Supplier> suppliers = SupplierAccessor.GetAllSuppliers();
+                dgvSuppliers.DataSource = suppliers;
+
+                cboSupplierName.Items.Clear();
+
+                cboSupplierName.Items.Add("All Suppliers");
+
+                cboSupplierName.SelectedIndex = 0;
+
+                foreach (Supplier supp in suppliers)
+                {
+                    cboSupplierName.Items.Add(supp.Name);
+                }
             }
         }
 
@@ -955,7 +996,7 @@ namespace ISDP_Cosman_Dallas
         {
             List<Transaction> allTxns = new List<Transaction>();
 
-            if (chkClosedOrders.Checked)
+            if (!chkClosedOrders.Checked)
                 allTxns = TransactionAccessor.GetAllTransactions("closed");
             else
                 allTxns = TransactionAccessor.GetAllTransactions("open");
@@ -972,6 +1013,8 @@ namespace ISDP_Cosman_Dallas
                     filtered.Add(txn);
                 }
             }
+
+            filtered = FilterListByDate(filtered, dtpOrderStart.Value, dtpOrderEnd.Value);
             dgvStoreOrders.DataSource = filtered;
         }
 
@@ -1251,7 +1294,7 @@ namespace ISDP_Cosman_Dallas
 
         private void btnEditInventory_Click(object sender, EventArgs e)
         {
-            if (dgvInventory.SelectedRows.Count > 0 )
+            if (dgvInventory.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = dgvInventory.SelectedRows[0];
                 Inventory inventory = InventoryAccessor.GetInventoryByItemIDAndSiteID(Convert.ToInt32(selectedRow.Cells["itemID"].Value), theEmployee.SiteID);
@@ -1260,6 +1303,114 @@ namespace ISDP_Cosman_Dallas
                 editInvForm.Tag = inventory;
                 editInvForm.ShowDialog();
             }
+        }
+
+        private List<Transaction> FilterListByDate(List<Transaction> transactions, DateTime startDate, DateTime endDate)
+        {
+            List<Transaction> filteredTransactions = new List<Transaction>();
+
+            foreach (Transaction txn in transactions)
+            {
+                DateTime? txnDate = txn.ShipDate;
+
+                if (txnDate.HasValue && txnDate >= startDate && txnDate <= endDate)
+                {
+                    filteredTransactions.Add(txn);
+                }
+            }
+
+            return filteredTransactions;
+        }
+
+        private void dgvTransactions_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvTransactions.Columns[e.ColumnIndex].Name == "SiteIDTo")
+            {
+                dgvTransactions.Columns[e.ColumnIndex].HeaderText = "Recieving Site";
+                if (e.Value != null && int.TryParse(e.Value.ToString(), out int siteID))
+                {
+                    Site site = SiteAccessor.GetSiteByID(siteID);
+                    e.Value = site.Name;
+                }
+            }
+            if (dgvTransactions.Columns[e.ColumnIndex].Name == "SiteIDFrom")
+            {
+                dgvTransactions.Columns[e.ColumnIndex].HeaderText = "Dispatch Site";
+                if (e.Value != null && int.TryParse(e.Value.ToString(), out int siteID))
+                {
+                    Site site = SiteAccessor.GetSiteByID(siteID);
+                    e.Value = site.Name;
+                }
+            }
+
+            HelperMethods.HideDataGridColumn(dgvTransactions, "Notes", e);
+            FormatDataGrid(dgvTransactions);
+        }
+
+        private void btnEditTxn_Click(object sender, EventArgs e)
+        {
+            if (dgvTransactions.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dgvTransactions.SelectedRows[0];
+                Transaction txn = TransactionAccessor.GetTransactionByTxnID(Convert.ToInt32(selectedRow.Cells["txnID"].Value));
+
+                frmEditTxn editTxnForm = new frmEditTxn();
+                editTxnForm.Tag = txn;
+                editTxnForm.Data = theEmployee;
+                editTxnForm.ShowDialog();
+            }
+        }
+
+        private void btnCancelTxn_Click(object sender, EventArgs e)
+        {
+            if (dgvTransactions.SelectedRows.Count > 0)
+            {
+
+                DataGridViewRow selectedRow = dgvTransactions.SelectedRows[0];
+                Transaction txn = TransactionAccessor.GetTransactionByTxnID(Convert.ToInt32(selectedRow.Cells["txnID"].Value));
+
+                DialogResult result = MessageBox.Show($"Are you sure you would like to close transaction {txn.TxnID}?", "Confirm Cancel", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    string sql = "UPDATE txn SET status = 'Cancelled' WHERE txnID = @txnID";
+
+                    MySqlParameter parameter = new MySqlParameter("@txnID", txn.TxnID);
+                    TransactionAccessor.AddUpdateTransaction(sql, parameter);
+                }
+            }
+        }
+
+        private void dgvSuppliers_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            HelperMethods.HideDataGridColumn(dgvSuppliers, "Notes", e);
+            FormatDataGrid(dgvSuppliers);
+        }
+
+        private void btnSearchSuppliers_Click(object sender, EventArgs e)
+        {
+            List<Supplier> allSuppliers = SupplierAccessor.GetAllSuppliers();
+            List<Supplier> filteredSupp = new List<Supplier>();
+            filteredSupp = HelperMethods.FilterData(allSuppliers, cboSupplierName, dgvSuppliers, supp => supp.Name);
+            dgvSuppliers.DataSource = filteredSupp;
+        }
+
+        private void btnEditSupplier_Click(object sender, EventArgs e)
+        {
+            if (dgvSuppliers.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dgvSuppliers.SelectedRows[0];
+                Supplier supp = SupplierAccessor.GetSupplierByID(Convert.ToInt32(selectedRow.Cells["supplierID"].Value));
+
+                frmAddEditSupplier editSupplierForm = new frmAddEditSupplier();
+                editSupplierForm.Tag = supp;
+                editSupplierForm.ShowDialog();
+            }
+        }
+
+        private void btnAddSupplier_Click(object sender, EventArgs e)
+        {
+            frmAddEditSupplier editSupplierForm = new frmAddEditSupplier();
+            editSupplierForm.ShowDialog();
         }
     }
 }

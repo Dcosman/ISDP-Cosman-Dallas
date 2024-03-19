@@ -280,20 +280,15 @@ namespace ISDP_Cosman_Dallas
                     errLabels[i].Visible = false;
             }
 
-            // Regex patterns
-            string phonePattern = @"^\d{10}$";
-            string postalPattern = @"^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$";
-
-
             //check if phone is valid
-            if (!Regex.IsMatch(txtSitePhone.Text, phonePattern) && !lblErrPhone.Visible)
+            if (!Regex.IsMatch(txtSitePhone.Text, Constants.PHONE_PATTERN) && !lblErrPhone.Visible)
             {
                 msg += "\nPhone number must follow the pattern: 5061234567.";
                 lblErrPhone.Visible = true;
             }
 
             //check if postal code is valid.
-            if (!Regex.IsMatch(txtSitePostal.Text, postalPattern) && !lblErrPostal.Visible)
+            if (!Regex.IsMatch(txtSitePostal.Text, Constants.POSTAL_PATTERN) && !lblErrPostal.Visible)
             {
                 msg += "\nPostal Code must follow the pattern: E1J2E3 or E1J 2E3";
                 lblErrPostal.Visible = true;
